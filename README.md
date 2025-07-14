@@ -1,1 +1,1 @@
-# personal-assystent
+# goit-pycore-hw-07
