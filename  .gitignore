@@ -45,3 +45,6 @@ coverage.xml
 
 # Windows
 Thumbs.db
+
+# Pull requests list
+pull_request_list.txt
