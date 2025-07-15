@@ -1,11 +1,17 @@
 import sys
+import os
 from parser import parse_input
 from commands import execute_command
-from storage import contacts, save_data
+from storage import contacts, save_data, set_data_directory
 
 def main(directory=None):
     print("Welcome to the assistant bot!")
-   
+    
+    if directory:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        set_data_directory(directory)
+
     while True:
         user_input = input("Enter a command: ").strip()
         if not user_input:
@@ -27,7 +33,7 @@ if __name__ == "__main__":
         sys.exit(1)
         
     # Якщо аргумент командного рядка передано, використовуємо його
-    directory_path = sys.argv[1] if len(sys.argv) > 1 else None
+    directory_path = sys.argv[1] 
 
     # Передаємо шлях до функції main
     main(directory_path)

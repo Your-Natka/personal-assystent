@@ -1,24 +1,53 @@
 from error_handlers import input_error
-from Address_book.address_book import AddressBook
-from Address_book.record import Record, Birthday
+from Address_book.record import Record 
 from datetime import datetime
-from Address_book.fields import Phone
-import pickle
 import os
+import pickle
+from Address_book.address_book import AddressBook
+from Address_book.notes import Notebook
 
+# Початковий шлях до файлу
+DATA_DIRECTORY = "."
 DATA_FILE = "addressbook.pkl"
+NOTEBOOK_FILE = "notes_data.pkl"
+
+def set_data_directory(directory):
+    global DATA_DIRECTORY
+    DATA_DIRECTORY = directory
+
+def get_data_path():
+    return os.path.join(DATA_DIRECTORY, DATA_FILE)
+
+def get_notes_path():
+    return os.path.join(DATA_DIRECTORY, NOTEBOOK_FILE)
 
 def save_data(book: AddressBook, filename=DATA_FILE):
     with open(filename, "wb") as f:
         pickle.dump(book, f)
 
-def load_data(filename=DATA_FILE) -> AddressBook:
-    if os.path.exists(filename):
-        with open(filename, "rb") as f:
+def load_data(book: AddressBook):
+    with open(get_data_path(), "wb") as f:
+        pickle.dump(book, f)
+
+def load_data() -> AddressBook:
+    if os.path.exists(get_data_path()):
+        with open(get_data_path(), "rb") as f:
             return pickle.load(f)
     return AddressBook()
-
+# Initialize the address book and notebook
 contacts = load_data()
+
+def save_notes(notebook):
+    with open(get_notes_path(), "wb") as f:
+        pickle.dump(notebook, f)
+
+def load_notes():
+    try:
+        with open(get_notes_path(), "rb") as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return Notebook()
+notebook = load_notes()
 
 @input_error
 def add_contact(name, phone):
@@ -29,6 +58,43 @@ def add_contact(name, phone):
     record.add_phone(phone)
     contacts.add_record(record)
     return f"Contact '{name}' added with phone '{phone}'."
+
+@input_error
+def add_full_contact(name, phone, email=None, address=None, birthday=None):
+    """
+    Додає контакт з повною інформацією.
+    """
+    record = Record(name)
+    record.add_phone(phone)
+    record.add_email(email)
+    record.add_address(address)
+    if birthday:
+        record.add_birthday(birthday)
+    contacts.add_record(record)
+    return f"Full contact '{name}' додано."
+
+
+@input_error
+def edit_email(name, new_email):
+    """
+    Редагує email для існуючого контакту.
+    """
+    record = contacts.find(name)
+    if not record:
+        return f"Contact '{name}' not found."
+    record.edit_email(new_email)
+    return f"Email for contact '{name}' updated to: {new_email}"
+
+@input_error
+def edit_address(name, new_address):
+    """
+    Редагує адресу для існуючого контакту.
+    """
+    record = contacts.find(name)
+    if not record:
+        return f"Contact '{name}' not found."
+    record.edit_address(new_address)
+    return f"Address for contact '{name}' updated to: {new_address}"
 
 @input_error
 def change_contact(name, new_phone):
@@ -45,8 +111,18 @@ def change_contact(name, new_phone):
     record.edit_phone(old_phone, new_phone)
     return f"Contact '{name}' updated: '{old_phone}' → '{new_phone}'."
 
+@input_error
+def show_contact(name):
+    """
+    Показує контакт за іменем.
+    """
+    record = contacts.find(name)
+    if not record:
+        return str(record)
+    return f"Contact '{name}' not found."
 
 @input_error
+
 def show_phone(name):
     """
     Виводить номер телефону для вказаного імені.
