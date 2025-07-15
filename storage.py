@@ -60,17 +60,20 @@ def add_contact(name, phone):
     return f"Contact '{name}' added with phone '{phone}'."
 
 @input_error
-def add_full_contact(name, phone, email=None, address=None, birthday=None):
+def add_full_contact(name, phone, email, address, birthday):
     """
     Додає контакт з повною інформацією.
     """
+    if name in contacts:
+        return f"Contact '{name}' already exists."
+    
     record = Record(name)
     record.add_phone(phone)
     record.add_email(email)
     record.add_address(address)
     if birthday:
         record.add_birthday(birthday)
-    contacts.add_record(record)
+    contacts[name] = record
     return f"Full contact '{name}' додано."
 
 
