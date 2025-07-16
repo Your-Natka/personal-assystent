@@ -9,7 +9,8 @@ from notes import save_notes, load_notes  # ✅ Виправлено
 ALL_COMMANDS = [
     "help", "add", "add-full", "change", "edit-contact", "edit-email", "edit-address",
     "phone", "show", "add-birthday", "show-birthday", "birthdays",
-    "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note"
+    "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note","birthdays-in"
+
 ]
 
 notebook = load_notes()  # ✅ Ініціалізуємо нотатник
@@ -58,6 +59,14 @@ delete-note [index] - Delete a note by index
             if len(args) != 2:
                 return "Invalid command. Use: change [username] [new_phone]"
             return change_contact(args[0], args[1])
+        
+        elif command == "birthdays-in":
+            if not args or not args[0].isdigit():
+                return "Вкажіть кількість днів. Приклад: birthdays-in 7"
+            days = int(args[0])
+            from storage import get_upcoming_birthdays
+            return "\n".join(get_upcoming_birthdays(days))
+
 
         elif command == "edit-contact":
             if len(args) < 2:
