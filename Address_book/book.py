@@ -1,5 +1,5 @@
 from collections import UserDict
-from Address_book.record import Record
+from address_book.record import Record
 from datetime import datetime, timedelta
 
 class AddressBook(UserDict):
