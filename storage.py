@@ -2,10 +2,38 @@ import pickle
 import os
 from Address_book.address_book import AddressBook
 from Address_book.record import Record
+from datetime import datetime, timedelta
 
 # Ініціалізація адресної книги
 contacts = AddressBook()
 data_file = "addressbook.pkl"
+
+def get_upcoming_birthdays(days=7):
+    today = datetime.today().date()
+    upcoming = []
+
+    for name, record in contacts.data.items():
+        if not record.birthday:
+            continue
+
+        bday = record.birthday.value
+        # Перестворити дату народження для поточного року
+        next_birthday = bday.replace(year=today.year)
+
+        # Якщо вже пройшов — дивимось на наступний рік
+        if next_birthday < today:
+            next_birthday = next_birthday.replace(year=today.year + 1)
+
+        delta = (next_birthday - today).days
+
+        if 0 <= delta <= days:
+            upcoming.append(f"{name} — {next_birthday.strftime('%d.%m')} (через {delta} дн.)")
+
+    if not upcoming:
+        return ["Немає днів народження найближчим часом."]
+    return upcoming
+
+
 
 def set_data_directory(directory):
     global data_file
