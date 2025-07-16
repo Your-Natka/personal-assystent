@@ -2,11 +2,11 @@ from difflib import get_close_matches
 from storage import (
     add_contact, change_contact, show_phone, show_all, add_birthday,
     show_birthday, birthdays, delete_contact, add_full_contact,
-    edit_email, edit_address, show_contact, save_notes, load_notes
+    edit_email, edit_address, show_contact, save_notes, load_notes, edit_contact
 )
 
 ALL_COMMANDS = [
-    "help", "add", "add-full", "change", "edit-email", "edit-address",
+    "help", "add", "add-full", "change", "edit-contact", "edit-email", "edit-address",
     "phone", "show", "add-birthday", "show-birthday", "birthdays",
     "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note"
 ]
@@ -29,6 +29,7 @@ def execute_command(command, args):
             add [username] [phone] - Add a new contact
             add-full [username] [phone] [email] [address] [DD.MM.YYYY] - Add a new contact with full details
             change [username] [new_phone] - Change the phone number of a contact
+            edit-contact [username] [phone] [email] [address] [birthday] - Edit a contact's details
             edit-email [username] [new_email] - Edit the email of a contact
             edit-address [username] [new_address] - Edit the address of a contact
             phone [username] - Show the phone number of a contact
@@ -60,6 +61,17 @@ def execute_command(command, args):
             if len(args) != 2:
                 return "Invalid command. Use: change [username] [new_phone]"
             return change_contact(args[0], args[1])
+        
+        elif command == "edit-contact":
+            if len(args) < 2:
+                return "Invalid command. Use: edit-contact [username] [phone] [email] [address] [birthday]"
+            name = args[0]
+            phone = args[1] if len(args) > 1 else None
+            email = args[2] if len(args) > 2 else None
+            address = args[3] if len(args) > 3 else None
+            birthday = args[4] if len(args) > 4 else None
+            return edit_contact(name, phone, email, address, birthday)
+
 
         elif command == "edit-email":
             if len(args) != 2:

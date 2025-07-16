@@ -78,6 +78,31 @@ def add_full_contact(name, phone, email, address, birthday):
 
 
 @input_error
+def edit_contact(name, phone=None, email=None, address=None, birthday=None):
+    record = contacts.find(name)
+    if not record:
+        return f"Contact '{name}' not found."
+
+    if phone:
+        if record.phones:
+            record.edit_phone(record.phones[0].value, phone)
+        else:
+            record.add_phone(phone)
+
+    if email:
+        record.edit_email(email)
+
+    if address:
+        record.edit_address(address)
+
+    if birthday:
+        record.add_birthday(birthday)
+
+    save_data(contacts)
+    return f"Contact '{name}' updated successfully."
+
+
+@input_error
 def edit_email(name, new_email):
     """
     Редагує email для існуючого контакту.
