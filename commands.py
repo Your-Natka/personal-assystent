@@ -6,7 +6,7 @@ from storage import (
 )
 
 ALL_COMMANDS = [
-    "hello", "add", "add-full", "change", "edit-email", "edit-address",
+    "help", "add", "add-full", "change", "edit-email", "edit-address",
     "phone", "show", "add-birthday", "show-birthday", "birthdays",
     "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note"
 ]
@@ -22,8 +22,29 @@ def execute_command(command, args):
     Виконує команду на основі введеного користувачем.
     """
     try:
-        if command == "hello":
-            return "How can I help you?"
+        if command == "help":
+            return """
+            I'm your new contact manager.
+            Available commands:
+            add [username] [phone] - Add a new contact
+            add-full [username] [phone] [email] [address] [DD.MM.YYYY] - Add a new contact with full details
+            change [username] [new_phone] - Change the phone number of a contact
+            edit-email [username] [new_email] - Edit the email of a contact
+            edit-address [username] [new_address] - Edit the address of a contact
+            phone [username] - Show the phone number of a contact
+            show [username] - Show all details of a contact
+            add-birthday [username] [DD.MM.YYYY] - Add a birthday to a contact
+            show-birthday [username] - Show the birthday of a contact
+            birthdays - Show all contacts with birthdays
+            delete [username] - Delete a contact
+            all - Show all contacts
+            add-note [text] [tag1,tag2,...] - Add a note with tags
+            show-notes - Show all notes
+            find-note [keyword] - Find notes by keyword
+            edit-note [index] [new text] [new_tag1,new_tag2,...] - Edit a note by index
+            delete-note [index] - Delete a note by index
+
+            """
 
         elif command == "add":
             if len(args) != 2:

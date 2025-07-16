@@ -13,7 +13,8 @@ def main(directory=None):
         set_data_directory(directory)
 
     while True:
-        user_input = input("Enter a command: ").strip()
+        user_input = input("Enter a command please or"
+        " 'help' for assistance: ").strip()
         if not user_input:
             continue
 
