@@ -113,6 +113,17 @@ class Record:
         """
         self.address = Address(address_str)
 
+    def edit_email(self, email):
+        self.email = email
+
+    def edit_address(self, address):
+        self.address = address
+
+    def edit_birthday(self, birthday):
+        self.add_birthday(birthday)
+
+
+
     def __str__(self):
         """
         Повертає строкове представлення запису контакту.

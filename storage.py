@@ -1,218 +1,142 @@
-from error_handlers import input_error
-from Address_book.record import Record 
-from datetime import datetime
-import os
 import pickle
+import os
 from Address_book.address_book import AddressBook
-from Address_book.notes import Notebook
+from Address_book.record import Record
 
-# Початковий шлях до файлу
-DATA_DIRECTORY = "."
-DATA_FILE = "addressbook.pkl"
-NOTEBOOK_FILE = "notes_data.pkl"
+# Ініціалізація адресної книги
+contacts = AddressBook()
+data_file = "addressbook.pkl"
 
 def set_data_directory(directory):
-    global DATA_DIRECTORY
-    DATA_DIRECTORY = directory
+    global data_file
+    data_file = os.path.join(directory, "addressbook.pkl")
+    load_data()
 
-def get_data_path():
-    return os.path.join(DATA_DIRECTORY, DATA_FILE)
+def save_data():
+    with open(data_file, "wb") as f:
+        pickle.dump(contacts, f)
 
-def get_notes_path():
-    return os.path.join(DATA_DIRECTORY, NOTEBOOK_FILE)
+def load_data():
+    global contacts
+    if os.path.exists(data_file):
+        with open(data_file, "rb") as f:
+            contacts = pickle.load(f)
 
-def save_data(book: AddressBook, filename=DATA_FILE):
-    with open(filename, "wb") as f:
-        pickle.dump(book, f)
-
-def load_data(book: AddressBook):
-    with open(get_data_path(), "wb") as f:
-        pickle.dump(book, f)
-
-def load_data() -> AddressBook:
-    if os.path.exists(get_data_path()):
-        with open(get_data_path(), "rb") as f:
-            return pickle.load(f)
-    return AddressBook()
-# Initialize the address book and notebook
-contacts = load_data()
-
-def save_notes(notebook):
-    with open(get_notes_path(), "wb") as f:
-        pickle.dump(notebook, f)
-
-def load_notes():
-    try:
-        with open(get_notes_path(), "rb") as f:
-            return pickle.load(f)
-    except FileNotFoundError:
-        return Notebook()
-notebook = load_notes()
-
-@input_error
 def add_contact(name, phone):
-    """
-    Додає новий контакт.
-    """
-    record = Record(name)
+    record = contacts.find(name)
+    if not record:
+        record = Record(name)
+        contacts.add_record(record)
     record.add_phone(phone)
-    contacts.add_record(record)
-    return f"Contact '{name}' added with phone '{phone}'."
+    save_data()
+    return f"Contact '{name}' updated successfully."
 
-@input_error
+def change_contact(name, new_phone):
+    record = contacts.find(name)
+    if record:
+        record.phones = [new_phone]
+        save_data()
+        return f"Phone number for '{name}' changed to {new_phone}"
+    return f"Contact '{name}' not found."
+
 def add_full_contact(name, phone, email, address, birthday):
-    """
-    Додає контакт з повною інформацією.
-    """
-    if name in contacts:
+    record = contacts.find(name)
+    if record:
         return f"Contact '{name}' already exists."
-    
     record = Record(name)
     record.add_phone(phone)
-    record.add_email(email)
-    record.add_address(address)
-    if birthday:
-        record.add_birthday(birthday)
-    contacts[name] = record
-    return f"Full contact '{name}' додано."
+    record.email = email
+    record.address = address
+    record.set_birthday(birthday)
+    contacts.add_record(record)
+    save_data()
+    return f"Full contact '{name}' added."
 
-
-@input_error
 def edit_contact(name, phone=None, email=None, address=None, birthday=None):
     record = contacts.find(name)
     if not record:
         return f"Contact '{name}' not found."
 
     if phone:
-        if record.phones:
-            record.edit_phone(record.phones[0].value, phone)
-        else:
-            record.add_phone(phone)
-
+        record.phones = [phone]
     if email:
-        record.edit_email(email)
-
+        record.email = email
     if address:
-        record.edit_address(address)
-
+        record.address = address
     if birthday:
-        record.add_birthday(birthday)
+        record.set_birthday(birthday)
 
-    save_data(contacts)
+    save_data()
     return f"Contact '{name}' updated successfully."
 
-
-@input_error
 def edit_email(name, new_email):
-    """
-    Редагує email для існуючого контакту.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    record.edit_email(new_email)
-    return f"Email for contact '{name}' updated to: {new_email}"
-
-@input_error
-def edit_address(name, new_address):
-    """
-    Редагує адресу для існуючого контакту.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    record.edit_address(new_address)
-    return f"Address for contact '{name}' updated to: {new_address}"
-
-@input_error
-def change_contact(name, new_phone):
-    """
-    Змінює існуючий контакт.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    if not record.phones:
-        return f"Contact '{name}' has no phone numbers to change."
-    
-    old_phone = record.phones[0].value
-    record.edit_phone(old_phone, new_phone)
-    return f"Contact '{name}' updated: '{old_phone}' → '{new_phone}'."
-
-@input_error
-def show_contact(name):
-    """
-    Показує контакт за іменем.
-    """
-    record = contacts.find(name)
-    if not record:
-        return str(record)
-    return f"Contact '{name}' not found."
-
-@input_error
-
-def show_phone(name):
-    """
-    Виводить номер телефону для вказаного імені.
-    """
     record = contacts.find(name)
     if record:
-        return str(record)
+        record.email = new_email
+        save_data()
+        return f"Email for '{name}' updated."
     return f"Contact '{name}' not found."
 
-@input_error
-def add_birthday(name, bday_str):
-    """
-    Додає день народження до контакту.
-    """
+def edit_address(name, new_address):
+    record = contacts.find(name)
+    if record:
+        record.address = new_address
+        save_data()
+        return f"Address for '{name}' updated."
+    return f"Contact '{name}' not found."
+
+def show_phone(name):
+    record = contacts.find(name)
+    if record:
+        return f"{name}'s phone(s): {', '.join(str(p) for p in record.phones)}"
+    return f"Contact '{name}' not found."
+
+def show_contact(name):
     record = contacts.find(name)
     if not record:
         return f"Contact '{name}' not found."
-    try:
-        record.add_birthday(bday_str)
-        return f"Birthday added to contact '{name}': {bday_str}"
-    except ValueError as e:
-        return str(e)
+    phones = ', '.join(str(p) for p in record.phones)
+    birthday = record.birthday.strftime('%d.%m.%Y') if record.birthday else 'N/A'
+    email = record.email if record.email else 'N/A'
+    address = record.address if record.address else 'N/A'
+    return (
+        f"Contact name: {name}, phones: {phones}, "
+        f"birthday: {birthday}, email: {email}, address: {address}"
+    )
 
-@input_error
+def show_all():
+    if not contacts:
+        return ["No contacts found."]
+
+    result = []
+    for name, record in contacts.data.items():
+        result.append(str(record))
+    return result
+
+
+def add_birthday(name, birthday):
+    record = contacts.find(name)
+    if record:
+        record.set_birthday(birthday)
+        save_data()
+        return f"{name}'s birthday is {birthday}."
+    return f"Contact '{name}' not found."
+
 def show_birthday(name):
-    """
-    Показує день народження контакту.
-    """
     record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    if record.birthday:
-        return f"{name}'s birthday is {record.birthday.value.strftime('%d.%m.%Y')}"
-    else:
-        return f"No birthday set for contact '{name}'."
+    if record and record.birthday:
+        return f"{name}'s birthday is {record.birthday.strftime('%d.%m.%Y')}"
+    return f"Birthday for '{name}' not found."
 
-@input_error
 def birthdays():
-    """
-    Показує список користувачів, яких потрібно привітати наступного тижня.
-    """
     upcoming = contacts.get_upcoming_birthdays()
     if not upcoming:
-        return "No birthdays in the upcoming week."
+        return "No upcoming birthdays."
     return "\n".join(upcoming)
 
-@input_error
 def delete_contact(name):
-    """
-    Видаляє контакт із книги.
-    """
-    try:
-        contacts.delete(name)
-        return f"Contact '{name}' deleted successfully."
-    except KeyError:
-        return f"Contact '{name}' not found."
-    
-@input_error
-def show_all():
-    """
-    Виводить усі контакти та номери телефонів.
-    """
-    if not contacts.data:
-        return "No contacts found."
-    return str(contacts)
+    if name in contacts.data:
+        del contacts.data[name]
+        save_data()
+        return f"Contact '{name}' deleted."
+    return f"Contact '{name}' not found."

@@ -2,8 +2,9 @@ from difflib import get_close_matches
 from storage import (
     add_contact, change_contact, show_phone, show_all, add_birthday,
     show_birthday, birthdays, delete_contact, add_full_contact,
-    edit_email, edit_address, show_contact, save_notes, load_notes, edit_contact
+    edit_email, edit_address, show_contact, edit_contact
 )
+from notes import save_notes, load_notes  # ✅ Виправлено
 
 ALL_COMMANDS = [
     "help", "add", "add-full", "change", "edit-contact", "edit-email", "edit-address",
@@ -11,41 +12,37 @@ ALL_COMMANDS = [
     "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note"
 ]
 
-notebook = load_notes()
+notebook = load_notes()  # ✅ Ініціалізуємо нотатник
 
 def suggest_command(user_input):
     suggestion = get_close_matches(user_input, ALL_COMMANDS, n=1)
     return suggestion[0] if suggestion else None
 
 def execute_command(command, args):
-    """
-    Виконує команду на основі введеного користувачем.
-    """
     try:
         if command == "help":
             return """
-            I'm your new contact manager.
-            Available commands:
-            add [username] [phone] - Add a new contact
-            add-full [username] [phone] [email] [address] [DD.MM.YYYY] - Add a new contact with full details
-            change [username] [new_phone] - Change the phone number of a contact
-            edit-contact [username] [phone] [email] [address] [birthday] - Edit a contact's details
-            edit-email [username] [new_email] - Edit the email of a contact
-            edit-address [username] [new_address] - Edit the address of a contact
-            phone [username] - Show the phone number of a contact
-            show [username] - Show all details of a contact
-            add-birthday [username] [DD.MM.YYYY] - Add a birthday to a contact
-            show-birthday [username] - Show the birthday of a contact
-            birthdays - Show all contacts with birthdays
-            delete [username] - Delete a contact
-            all - Show all contacts
-            add-note [text] [tag1,tag2,...] - Add a note with tags
-            show-notes - Show all notes
-            find-note [keyword] - Find notes by keyword
-            edit-note [index] [new text] [new_tag1,new_tag2,...] - Edit a note by index
-            delete-note [index] - Delete a note by index
-
-            """
+I'm your new contact manager.
+Available commands:
+add [username] [phone] - Add a new contact
+add-full [username] [phone] [email] [address] [DD.MM.YYYY] - Add a new contact with full details
+change [username] [new_phone] - Change the phone number of a contact
+edit-contact [username] [phone] [email] [address] [birthday] - Edit a contact's details
+edit-email [username] [new_email] - Edit the email of a contact
+edit-address [username] [new_address] - Edit the address of a contact
+phone [username] - Show the phone number of a contact
+show [username] - Show all details of a contact
+add-birthday [username] [DD.MM.YYYY] - Add a birthday to a contact
+show-birthday [username] - Show the birthday of a contact
+birthdays - Show all contacts with birthdays
+delete [username] - Delete a contact
+all - Show all contacts
+add-note [text] [tag1,tag2,...] - Add a note with tags
+show-notes - Show all notes
+find-note [keyword] - Find notes by keyword
+edit-note [index] [new text] [new_tag1,new_tag2,...] - Edit a note by index
+delete-note [index] - Delete a note by index
+"""
 
         elif command == "add":
             if len(args) != 2:
@@ -61,7 +58,7 @@ def execute_command(command, args):
             if len(args) != 2:
                 return "Invalid command. Use: change [username] [new_phone]"
             return change_contact(args[0], args[1])
-        
+
         elif command == "edit-contact":
             if len(args) < 2:
                 return "Invalid command. Use: edit-contact [username] [phone] [email] [address] [birthday]"
@@ -71,7 +68,6 @@ def execute_command(command, args):
             address = args[3] if len(args) > 3 else None
             birthday = args[4] if len(args) > 4 else None
             return edit_contact(name, phone, email, address, birthday)
-
 
         elif command == "edit-email":
             if len(args) != 2:
@@ -112,7 +108,7 @@ def execute_command(command, args):
             return delete_contact(args[0])
 
         elif command == "all":
-            return show_all()
+            return "\n".join(show_all())  # ✅ Виводимо всі контакти у вигляді рядків
 
         elif command == "add-note":
             if len(args) < 2:
@@ -149,6 +145,10 @@ def execute_command(command, args):
             result = notebook.remove_note(index)
             save_notes(notebook)
             return result
+        
+        elif command == "all":
+            return "\n".join(show_all())
+
 
         else:
             suggestion = suggest_command(command)
@@ -158,3 +158,4 @@ def execute_command(command, args):
 
     except Exception as e:
         return f"An error occurred: {e}"
+
