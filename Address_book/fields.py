@@ -36,17 +36,15 @@ class Name(Field):
 
 class Phone(Field):
     """
-    Клас для збереження телефонного номера.
-
-    Валідує, що номер складається рівно з 10 цифр.
-
-    Raises:
-        ValueError: якщо номер не містить рівно 10 цифр.
+    Клас для збереження телефонного номера в міжнародному форматі.
+    Дозволяє номери від 10 до 15 цифр (без символів, крім цифр).
     """
     def __init__(self, value):
-        if not value.isdigit() or len(value) != 10:
-            raise ValueError("Phone number must contain exactly 10 digits.")
+        digits = ''.join(filter(str.isdigit, value))  # забирає пробіли, + і дужки
+        if len(digits) < 10 or len(digits) > 15:
+            raise ValueError("Phone number must contain 10–15 digits.")
         super().__init__(value)
+
 
 
 class Birthday(Field):
