@@ -1,11 +1,16 @@
+from colorama import init, Fore, Style
 import sys
 import os
 from parser import parse_input
 from commands import execute_command
 from storage import contacts, save_data, set_data_directory
 
+init(autoreset=True)
+
 def contacts_help():
+    print(Fore.CYAN + "Available commands:" + Style.RESET_ALL)
     print(
+    Fore.GREEN +
         "Available commands:\n"
         "add         - add new contact\n"
         "edit        - edit existing contact\n"
@@ -14,11 +19,14 @@ def contacts_help():
         "all         - show all contacts\n"
         "birthdays   - show upcoming birthdays\n"
         "help        - show this help message\n"
-        "back        - return to main menu"
+        "back        - return to main menu" +
+        Style.RESET_ALL
     )
 
 def notes_help():
+    print(Fore.CYAN + "Available commands:" + Style.RESET_ALL)
     print(
+    Fore.GREEN +
         "Available commands:\n"
         "add-note    - add a note with tags\n"
         "show-notes  - show all notes\n"
@@ -26,11 +34,12 @@ def notes_help():
         "edit-note   - edit note by index\n"
         "delete-note - delete note by index\n"
         "help        - show this help message\n"
-        "back        - return to main menu"
+        "back        - return to main menu" +
+        Style.RESET_ALL
     )
 
 def main(directory=None):
-    print("Welcome to the assistant bot!")
+    print(Fore.CYAN + "Welcome to the assistant bot!" + Style.RESET_ALL)
 
     if directory:
         if not os.path.exists(directory):
