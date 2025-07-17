@@ -3,7 +3,7 @@ from data import contacts
 from storage import (
     add_contact_interactive, edit_contact_interactive,
     delete_contact, show_all, show_birthday, birthdays,
-    edit_email, edit_address, show_contact, save_data,
+    show_contact, save_data,
     save_notes, load_notes, get_upcoming_birthdays
 )
 

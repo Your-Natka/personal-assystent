@@ -45,7 +45,7 @@ def main(directory=None):
             else:
                 mode = user_input
 
-            if mode == ['exit', 'close']:
+            if mode in ['exit', 'close']:
                 print("Good bye!")
                 save_data(contacts)
                 break

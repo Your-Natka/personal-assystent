@@ -101,6 +101,70 @@ Enter birthday (DD.MM.YYYY, optional): 15.07.1990
 Contact 'Anna' added successfully.
 
 
+🧩 Покрокове додавання контакту (команда edit)
+
+Команда edit запускає інтерактивний режим редагування для існуючого контакту.
+
+Ви можете змінити номер телефону, email, адресу або день народження. Для кожного поля можна залишити старе значення, просто натиснувши Enter. Щоб вийти з режиму редагування — введіть exit.
+
+📌 Приклад
+Enter command: edit
+Editing contact (type 'exit' to cancel or press Enter to skip a field)
+Enter the name of the contact you want to edit: Lucja
+Current phone(s): 0962343456
+Enter new phone (or press Enter to keep current): 0674564567
+Current email: lucja@gmail.com
+Enter new email (or press Enter to keep current): 
+Current address: Kyiv
+Enter new address (or press Enter to keep current): lwow
+Current birthday: 18.07.1990
+Enter new birthday (DD.MM.YYYY) (or press Enter to keep current): 20.07/1990
+Invalid birthday format: Invalid date format. Use DD.MM.YYYY
+Contact 'Lucja' updated successfully.
+
+🧩 Покрокове додавання контакту (команда delete)
+Перегляд усіх контактів (команда all)
+Команда all виводить усі збережені контакти, включно з доступними полями: ім’я, телефон(и), email, адреса та день народження (якщо вказано).
+📌 Приклад:
+
+Enter command: all
+Name: Lucja
+Phones: 0674564567
+Email: lucja@gmail.com
+Address: lwow
+Birthday: 18.07.1990
+------------------------------
+Name: Nata
+Phones: 0983453453
+------------------------------
+Name: Vita
+Phones: 0737657654
+Email: vita@gmail.com
+------------------------------
+
+🆘 Отримання списку доступних команд (команда help)
+Команда help показує повний список доступних команд та їх короткий опис.
+
+Щоб видалити контакт, введіть delete [ім'я_контакту].
+
+📌 Приклади:
+✅ Успішне видалення:
+
+Enter command: delete Nata
+Contact 'Nata' deleted successfully.
+
+❗️Помилка при неправильному форматі команди:
+Enter command: delete
+Invalid command. Use: delete [username]
+Команда під сказу є що тато опи видалити контакт ми маємо знайти його name.
+
+Команда back працює
+
+Enter command: back
+Returning to mode selection...
+Enter mode (contacts/notes or exit): exit
+
+
 🗒️ Команди (режим notes)
 Команда	Опис
 add-note "text" tags.      - Додати нотатку (теги через кому, без пробілів)
