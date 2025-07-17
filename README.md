@@ -30,7 +30,7 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 
 5. Запуск
-python3 main.py /Users/natalabodnarcuk/Documents/GitHub/personal-assystent
+python3 main.py 
 
 6. Інструкція користувача.
 Після запуску бот запитає режим:
