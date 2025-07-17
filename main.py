@@ -48,7 +48,7 @@ def main(directory=None):
 
     while True:
         try:
-            user_input = input("Enter mode (contacts/notes or exit): ").strip().lower()
+            user_input = input("Enter mode (contacts/notes or exit/close): ").strip().lower()
             if user_input == '':
                 mode = 'contacts'  # дефолтний режим
             else:
