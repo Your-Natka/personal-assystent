@@ -5,3 +5,5 @@ https://github.com/Your-Natka/personal-assystent/commit/a23e8605ad30931250ba4f86
 https://github.com/Your-Natka/personal-assystent/pull/1
 https://github.com/Your-Natka/personal-assystent/pull/2
 https://github.com/Your-Natka/personal-assystent/pull/5
+https://github.com/Your-Natka/personal-assystent/pull/6
+
