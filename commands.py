@@ -9,7 +9,8 @@ from storage import (
 ALL_COMMANDS = [
     "hello","help", "add", "change", "edit-email", "edit-address",
     "phone", "show", "add-birthday", "show-birthday", "birthdays",
-    "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note"
+    "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note","birthdays-in"
+
 ]
 
 notebook = load_notes()
@@ -53,9 +54,25 @@ def execute_command(command, args):
         elif command == "edit-phone":
             if len(args) != 2:
                 return "Invalid command. Use: change [username] [new_phone]"
-            result = change_contact(args[0], args[1])
-            save_data(contacts)
-            return result
+            return change_contact(args[0], args[1])
+        
+        elif command == "birthdays-in":
+            if not args or not args[0].isdigit():
+                return "Вкажіть кількість днів. Приклад: birthdays-in 7"
+            days = int(args[0])
+            from storage import get_upcoming_birthdays
+            return "\n".join(get_upcoming_birthdays(days))
+
+
+        elif command == "edit-contact":
+            if len(args) < 2:
+                return "Invalid command. Use: edit-contact [username] [phone] [email] [address] [birthday]"
+            name = args[0]
+            phone = args[1] if len(args) > 1 else None
+            email = args[2] if len(args) > 2 else None
+            address = args[3] if len(args) > 3 else None
+            birthday = args[4] if len(args) > 4 else None
+            return edit_contact(name, phone, email, address, birthday)
 
         elif command == "edit-email":
             if len(args) != 2:
