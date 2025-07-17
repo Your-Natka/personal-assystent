@@ -3,7 +3,7 @@ from data import contacts
 from storage import (
     add_contact_interactive, edit_contact_interactive,
     delete_contact, show_all, show_birthday, birthdays,
-    show_contact, save_data,
+    show_contact, save_data, search,
     save_notes, load_notes, get_upcoming_birthdays
 )
 
@@ -83,12 +83,7 @@ def execute_command(command, args):
         elif command == "search":
             if not args:
                 return "Invalid command. Use: search [keyword]"
-            keyword = " ".join(args).lower()
-            results = []
-            for name, record in contacts.data.items():
-                if keyword in name.lower():
-                    results.append(str(record))
-            return "\n\n".join(results) if results else "No matching contacts found."
+            return search(" ".join(args))
 
         elif command == "all":
             return show_all()

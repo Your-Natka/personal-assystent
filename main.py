@@ -74,7 +74,7 @@ def main(directory=None):
                 if command == 'back':
                     print("Returning to mode selection...")
                     break
-
+                
                 if command in ["close", "exit"]:
                     print("Good bye!")
                     save_data(contacts)

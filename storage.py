@@ -206,6 +206,47 @@ def edit_contact_interactive():
     return f"Contact '{name}' updated successfully."
 
 @input_error
+def search(keyword):
+    """
+    Шукає контакти за ім'ям, телефоном, email, адресою або днем народження.
+    """
+    keyword = keyword.lower()
+    results = []
+
+    for name, record in contacts.data.items():
+        # Ім’я
+        if keyword in name.lower():
+            results.append(str(record))
+            continue
+
+        # Телефони
+        for phone in record.phones:
+            if keyword in phone.value:
+                results.append(str(record))
+                break
+
+        # Email
+        if record.email and keyword in record.email.value.lower():
+            results.append(str(record))
+            continue
+
+        # Адреса
+        if record.address and keyword in record.address.value.lower():
+            results.append(str(record))
+            continue
+
+        # День народження
+        if record.birthday and keyword in record.birthday.value.strftime("%d.%m.%Y"):
+            results.append(str(record))
+            continue
+
+    if not results:
+        return "No matching contacts found."
+
+    return "\n\n".join(results)
+
+
+@input_error
 def edit_email(name, new_email):
     """
     Редагує email для існуючого контакту.
