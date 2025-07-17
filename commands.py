@@ -1,42 +1,41 @@
 from difflib import get_close_matches
 from data import contacts
 from storage import (
-    add_contact_interactive, change_contact, show_all,
-    show_birthday, birthdays, delete_contact,
-    edit_email, edit_address, show_contact, save_notes, load_notes, save_data
+    add_contact_interactive, edit_contact_interactive,
+    delete_contact, show_all, show_birthday, birthdays,
+    edit_email, edit_address, show_contact, save_data,
+    save_notes, load_notes, get_upcoming_birthdays
 )
 
-ALL_COMMANDS = [
-    "hello","help", "add", "change", "edit-email", "edit-address",
-    "phone", "show", "add-birthday", "show-birthday", "birthdays",
-    "delete", "all", "add-note", "show-notes", "find-note", "edit-note", "delete-note","birthdays-in"
-
-]
-
 notebook = load_notes()
+
+ALL_COMMANDS = [
+    "hello", "help", "add", "edit", "show", "search",
+    "birthdays", "birthdays-in", "delete", "all",
+    "add-note", "show-notes", "find-note", "edit-note", "delete-note"
+]
 
 def suggest_command(user_input):
     suggestion = get_close_matches(user_input, ALL_COMMANDS, n=1)
     return suggestion[0] if suggestion else None
 
 def execute_command(command, args):
-    """
-    Виконує команду на основі введеного користувачем.
-    """
     try:
         if command == "hello":
             return "How can I help you?"
+
         elif command == "help":
             return (
                 "Available commands:\n"
                 "add            - add new contact interactively\n"
-                "edit-phone     - change contact's phone\n"
-                "edit-email     - edit contact's email\n"
-                "edit-address   - edit contact's address\n"  
-                "show           - show all contact info\n"
+                "edit           - edit contact's info (phone, email, address, birthday)\n"
+                "show           - show contact info\n"
+                "search         - search contacts by name\n"
                 "show-birthday  - show birthday of contact\n"
                 "birthdays      - show upcoming birthdays\n"
+                "birthdays-in   - show birthdays in given days\n"
                 "delete         - delete contact\n"
+                "all            - show all contacts\n"
                 "add-note       - add a note with tags\n"
                 "show-notes     - show all notes\n"
                 "find-note      - find notes by keyword\n"
@@ -45,46 +44,20 @@ def execute_command(command, args):
                 "help           - show this help message\n"
             )
 
-
         elif command == "add":
             result = add_contact_interactive()
-            save_data(contacts)  # Зберігаємо одразу після додавання
-            return result
-
-        elif command == "edit-phone":
-            if len(args) != 2:
-                return "Invalid command. Use: change [username] [new_phone]"
-            return change_contact(args[0], args[1])
-        
-        elif command == "birthdays-in":
-            if not args or not args[0].isdigit():
-                return "Вкажіть кількість днів. Приклад: birthdays-in 7"
-            days = int(args[0])
-            from storage import get_upcoming_birthdays
-            return "\n".join(get_upcoming_birthdays(days))
-
-
-        elif command == "edit-contact":
-            if len(args) < 2:
-                return "Invalid command. Use: edit-contact [username] [phone] [email] [address] [birthday]"
-            name = args[0]
-            phone = args[1] if len(args) > 1 else None
-            email = args[2] if len(args) > 2 else None
-            address = args[3] if len(args) > 3 else None
-            birthday = args[4] if len(args) > 4 else None
-            return edit_contact(name, phone, email, address, birthday)
-
-        elif command == "edit-email":
-            if len(args) != 2:
-                return "Invalid command. Use: edit-email [username] [new_email]"
-            result = edit_email(args[0], args[1])
             save_data(contacts)
             return result
 
-        elif command == "edit-address":
-            if len(args) != 2:
-                return "Invalid command. Use: edit-address [username] [new_address]"
-            result = edit_address(args[0], args[1])
+        elif command in ["edit", "edit-contact"]:
+            result = edit_contact_interactive()
+            save_data(contacts)
+            return result
+
+        elif command == "delete":
+            if len(args) != 1:
+                return "Invalid command. Use: delete [username]"
+            result = delete_contact(args[0])
             save_data(contacts)
             return result
 
@@ -101,12 +74,21 @@ def execute_command(command, args):
         elif command == "birthdays":
             return birthdays()
 
-        elif command == "delete":
-            if len(args) != 1:
-                return "Invalid command. Use: delete [username]"
-            result = delete_contact(args[0])
-            save_data(contacts)
-            return result
+        elif command == "birthdays-in":
+            if not args or not args[0].isdigit():
+                return "Please specify number of days. Example: birthdays-in 7"
+            days = int(args[0])
+            return "\n".join(get_upcoming_birthdays(days))
+
+        elif command == "search":
+            if not args:
+                return "Invalid command. Use: search [keyword]"
+            keyword = " ".join(args).lower()
+            results = []
+            for name, record in contacts.data.items():
+                if keyword in name.lower():
+                    results.append(str(record))
+            return "\n\n".join(results) if results else "No matching contacts found."
 
         elif command == "all":
             return show_all()
@@ -146,26 +128,6 @@ def execute_command(command, args):
             result = notebook.remove_note(index)
             save_notes(notebook)
             return result
-        elif command == "edit-note":
-            if len(args) < 2:
-                return "Invalid command. Use: edit-note [index] [new text] [new_tag1,new_tag2,...]"
-            index = int(args[0])
-            text = args[1]
-            tags = args[2].split(",") if len(args) > 2 else None
-            result = notebook.edit_note(index, text, tags)
-            save_notes(notebook)
-            return result
-
-        elif command == "delete-note":
-            if not args:
-                return "Invalid command. Use: delete-note [index]"
-            index = int(args[0])
-            result = notebook.remove_note(index)
-            save_notes(notebook)
-            return result
-        
-        elif command == "all":
-            return "\n".join(show_all())
 
         else:
             suggestion = suggest_command(command)
@@ -175,4 +137,3 @@ def execute_command(command, args):
 
     except Exception as e:
         return f"An error occurred: {e}"
-

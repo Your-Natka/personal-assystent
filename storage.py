@@ -5,7 +5,7 @@ import os
 import pickle
 from address_book.book import AddressBook
 from notebook.notes import Notebook
-from address_book.fields import Birthday, Phone, Email, Address
+from address_book.fields import Birthday, Email, Address
 
 # Початковий шлях до файлу
 DATA_DIRECTORY = "."
@@ -36,7 +36,6 @@ def get_upcoming_birthdays(days=7):
     if not upcoming:
         return ["Немає днів народження найближчим часом."]
     return upcoming
-
 
 
 def set_data_directory(directory):
@@ -113,7 +112,7 @@ def add_contact_interactive():
     if cancel:
         return "Cancelled."
     if phone:
-        record.add_phone(Phone(phone))
+        record.add_phone(phone)
     if phone and not ask_continue():
         contacts.add_record(record)
         return f"Contact '{name}' added successfully."
@@ -150,6 +149,61 @@ def add_contact_interactive():
 
     contacts.add_record(record)
     return f"Contact '{name}' added successfully."
+
+@input_error
+def edit_contact_interactive():
+    print("Editing contact (type 'exit' to cancel or press Enter to skip a field)")
+
+    name = input("Enter the name of the contact you want to edit: ").strip()
+    if name.lower() == 'exit':
+        return "Cancelled."
+
+    if name not in contacts:
+        return f"Contact '{name}' not found."
+
+    record = contacts[name]
+
+    # Phone
+    current_phone = ", ".join(str(p) for p in record.phones) or "None"
+    print(f"Current phone(s): {current_phone}")
+    new_phone = input("Enter new phone (or press Enter to keep current): ").strip()
+    if new_phone.lower() == 'exit':
+        return "Cancelled."
+    if new_phone:
+        record.phones.clear()
+        record.add_phone(new_phone)
+
+    # Email
+    current_email = str(record.email) if record.email else "None"
+    print(f"Current email: {current_email}")
+    new_email = input("Enter new email (or press Enter to keep current): ").strip()
+    if new_email.lower() == 'exit':
+        return "Cancelled."
+    if new_email:
+        record.add_email(new_email)
+
+    # Address
+    current_address = str(record.address) if record.address else "None"
+    print(f"Current address: {current_address}")
+    new_address = input("Enter new address (or press Enter to keep current): ").strip()
+    if new_address.lower() == 'exit':
+        return "Cancelled."
+    if new_address:
+        record.add_address(new_address)
+
+    # Birthday
+    current_birthday = str(record.birthday) if record.birthday else "None"
+    print(f"Current birthday: {current_birthday}")
+    new_birthday = input("Enter new birthday (DD.MM.YYYY) (or press Enter to keep current): ").strip()
+    if new_birthday.lower() == 'exit':
+        return "Cancelled."
+    if new_birthday:
+        try:
+            record.add_birthday(new_birthday)
+        except ValueError as e:
+            print(f"Invalid birthday format: {e}")
+
+    return f"Contact '{name}' updated successfully."
 
 @input_error
 def edit_email(name, new_email):
