@@ -102,9 +102,8 @@ def main(directory=None):
             break
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Використання: python main.py <шлях до директорії>")
-        sys.exit(1)
-
-    directory_path = sys.argv[1]
+    if len(sys.argv) == 2:
+        directory_path = sys.argv[1]
+    else:
+        directory_path = '.'  # поточна директорія
     main(directory_path)
