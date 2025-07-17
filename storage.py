@@ -245,7 +245,6 @@ def search(keyword):
 
     return "\n\n".join(results)
 
-
 @input_error
 def edit_email(name, new_email):
     """
