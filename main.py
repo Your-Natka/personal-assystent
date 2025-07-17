@@ -1,3 +1,4 @@
+
 import sys
 import os
 from parser import parse_input
@@ -12,6 +13,7 @@ def contacts_help():
         "delete      - delete contact\n"
         "search      - search contacts\n"
         "all         - show all contacts\n"
+        "bday-timer  - countdown to birthday\n"
         "birthdays   - show upcoming birthdays\n"
         "help        - show this help message\n"
         "back        - return to main menu"
@@ -45,7 +47,7 @@ def main(directory=None):
             else:
                 mode = user_input
 
-            if mode == ['exit', 'close']:
+            if mode in ['exit', 'close']:
                 print("Good bye!")
                 save_data(contacts)
                 break
@@ -74,7 +76,7 @@ def main(directory=None):
                 if command == 'back':
                     print("Returning to mode selection...")
                     break
-
+                
                 if command in ["close", "exit"]:
                     print("Good bye!")
                     save_data(contacts)
