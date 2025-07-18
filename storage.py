@@ -1,11 +1,11 @@
 from error_handlers import input_error
-from address_book.record import Record 
+from contacts.record import Record 
 from datetime import datetime
 import os
 import pickle
-from address_book.book import AddressBook
+from contacts.book import AddressBook
 from notebook.notes import Notebook
-from address_book.fields import Birthday, Email, Address
+from contacts.fields import Birthday, Email, Address
 
 # Початковий шлях до файлу
 DATA_DIRECTORY = "."

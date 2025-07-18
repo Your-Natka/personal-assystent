@@ -1,7 +1,6 @@
 import re
 from datetime import datetime
 
-
 class Note:
     def __init__(self, text, tags=None):
         if not text.strip():

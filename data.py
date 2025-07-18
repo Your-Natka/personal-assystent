@@ -1,6 +1,6 @@
 import os
 import pickle
-from address_book.book import AddressBook
+from contacts.book import AddressBook
 
 # Шлях до файлу збереження
 DATA_FILE = os.path.join(os.getcwd(), "contacts.bin")
