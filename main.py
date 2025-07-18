@@ -8,10 +8,9 @@ from storage import contacts, save_data, set_data_directory
 init(autoreset=True)
 
 def contacts_help():
-    print(Fore.CYAN + "Available commands:" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "Available commands:" + Style.RESET_ALL)
     print(
     Fore.GREEN +
-        "Available commands:\n"
         "add            - add new contact\n"
         "edit           - edit existing contact\n"
         "delete         - delete contact\n"
@@ -24,10 +23,9 @@ def contacts_help():
     )
 
 def notes_help():
-    print(Fore.CYAN + "Available commands:" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "Available commands:" + Style.RESET_ALL)
     print(
     Fore.GREEN +
-        "Available commands:\n"
         "add-note    - add a note with tags\n"
         "show-notes  - show all notes\n"
         "find-note   - find notes by keyword\n"
@@ -39,7 +37,7 @@ def notes_help():
     )
 
 def main(directory=None):
-    print(Fore.CYAN + "Welcome to the assistant bot!" + Style.RESET_ALL)
+    print(Fore.BLUE + "Welcome to the assistant bot!" + Style.RESET_ALL)
 
     if directory:
         if not os.path.exists(directory):
