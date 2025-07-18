@@ -10,7 +10,7 @@ from contacts.fields import Birthday, Email, Address
 # Початковий шлях до файлу
 DATA_DIRECTORY = "."
 DATA_FILE = "contacts.pkl"
-NOTEBOOK_FILE = "notes.pkl"
+NOTEBOOK_FILE = "notes_data.pkl"
 
 def get_upcoming_birthdays(days=7):
     today = datetime.today().date()
