@@ -17,7 +17,6 @@ def contacts_help():
         "delete         - delete contact\n"
         "search         - search contacts\n"
         "all            - show all contacts\n"
-        "show_birthday  - show birthday of contact\n"
         "birthdays      - show upcoming birthdays\n"
         "help           - show this help message\n"
         "back           - return to main menu" +

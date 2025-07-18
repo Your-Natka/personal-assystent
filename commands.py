@@ -2,7 +2,7 @@ from difflib import get_close_matches
 from data import contacts
 from storage import (
     add_contact_interactive, edit_contact_interactive,
-    delete_contact, show_all, show_birthday, birthdays,
+    delete_contact, show_all, birthdays,
     show_contact, save_data, search,
     save_notes, load_notes, get_upcoming_birthdays
 )
@@ -31,7 +31,6 @@ def execute_command(command, args):
                 "edit           - edit contact's info (phone, email, address, birthday)\n"
                 "show           - show contact info\n"
                 "search         - search contacts by name\n"
-                "show-birthday  - show birthday of contact\n"
                 "birthdays      - show upcoming birthdays\n"
                 "birthdays-in   - show birthdays in given days\n"
                 "delete         - delete contact\n"
@@ -49,7 +48,7 @@ def execute_command(command, args):
             save_data(contacts)
             return result
 
-        elif command in ["edit", "edit-contact"]:
+        elif command in ["edit"]:
             result = edit_contact_interactive()
             save_data(contacts)
             return result
@@ -66,10 +65,10 @@ def execute_command(command, args):
                 return "Invalid command. Use: show [username]"
             return show_contact(args[0])
 
-        elif command == "show-birthday":
-            if len(args) != 1:
-                return "Invalid command. Use: show-birthday [username]"
-            return show_birthday(args[0])
+        # elif command == "show-birthday":
+        #     if len(args) != 1:
+        #         return "Invalid command. Use: show-birthday [username]"
+        #     return show_birthday(args[0])
 
         elif command == "birthdays":
             return birthdays()

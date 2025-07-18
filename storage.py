@@ -9,8 +9,8 @@ from contacts.fields import Birthday, Email, Address
 
 # Початковий шлях до файлу
 DATA_DIRECTORY = "."
-DATA_FILE = "addressbook.pkl"
-NOTEBOOK_FILE = "notes_data.pkl"
+DATA_FILE = "contacts.pkl"
+NOTEBOOK_FILE = "notes.pkl"
 
 def get_upcoming_birthdays(days=7):
     today = datetime.today().date()
@@ -282,15 +282,15 @@ def search(keyword):
 #     record.edit_phone(old_phone, new_phone)
 #     return f"Contact '{name}' updated: '{old_phone}' → '{new_phone}'."
 
-# @input_error
-# def show_contact(name):
-#     """
-#     Показує контакт за іменем.
-#     """
-#     record = contacts.find(name)
-#     if record:
-#         return str(record)
-#     return f"Contact '{name}' not found."
+@input_error
+def show_contact(name):
+    """
+    Показує контакт за іменем.
+    """
+    record = contacts.find(name)
+    if record:
+        return str(record)
+    return f"Contact '{name}' not found."
 
 # @input_error
 
@@ -317,18 +317,18 @@ def search(keyword):
 #     except ValueError as e:
 #         return str(e)
 
-@input_error
-def show_birthday(name):
-    """
-    Показує день народження контакту.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    if record.birthday:
-        return f"{name}'s birthday is {record.birthday.value.strftime('%d.%m.%Y')}"
-    else:
-        return f"No birthday set for contact '{name}'."
+# @input_error
+# def show_birthday(name):
+#     """
+#     Показує день народження контакту.
+#     """
+#     record = contacts.find(name)
+#     if not record:
+#         return f"Contact '{name}' not found."
+#     if record.birthday:
+#         return f"{name}'s birthday is {record.birthday.value.strftime('%d.%m.%Y')}"
+#     else:
+#         return f"No birthday set for contact '{name}'."
 
 @input_error
 def birthdays():
