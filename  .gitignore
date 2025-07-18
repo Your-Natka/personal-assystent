@@ -1,7 +1,7 @@
 Python
 __pycache__
 .idea
-addressbook.pkl
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -24,7 +24,7 @@ dist/
 # Test and coverage outputs
 htmlcov/
 .coverage
-.cache/
+
 nosetests.xml
 coverage.xml
 *.cover
