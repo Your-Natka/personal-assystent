@@ -16,23 +16,23 @@ class AddressBook(UserDict):
             del self.data[name]
         else:
             raise ValueError("Record not found.")
-        
-    def get_upcoming_birthdays(self):
+    def get_upcoming_birthdays(self, days=7):
         today = datetime.today().date()
-        end_date = today + timedelta(days=7)
         upcoming = []
 
-        for record in self.data.values():
-            if record.birthday:
-                bday = record.birthday.value.date()
-                bday_this_year = bday.replace(year=today.year)
+        for name, record in self.data.items():
+            if not record.birthday:
+                continue
 
-                # Якщо день народження вже був цього року — перенесемо на наступний
-                if bday_this_year < today:
-                    bday_this_year = bday_this_year.replace(year=today.year + 1)
+            bday = record.birthday.value
+            next_birthday = bday.replace(year=today.year)
 
-                if today <= bday_this_year <= end_date:
-                    upcoming.append(f"{record.name.value}: {bday.strftime('%d.%m.%Y')}")
+            if next_birthday < today:
+                next_birthday = next_birthday.replace(year=today.year + 1)
+
+            delta = (next_birthday - today).days
+            if 0 <= delta <= days:
+                upcoming.append(f"{name} — {next_birthday.strftime('%d.%m')} (через {delta} дн.)")
 
         return upcoming
     
