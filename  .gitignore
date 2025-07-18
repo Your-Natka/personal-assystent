@@ -46,9 +46,9 @@ coverage.xml
 # Windows
 Thumbs.db
 
-__pycache__/
-*.pyc
-
 # Pull requests list
 pull_request_list.txt
 
+__pycache__/
+*.pyc
+*.pkl
