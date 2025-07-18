@@ -12,14 +12,15 @@ def contacts_help():
     print(
     Fore.GREEN +
         "Available commands:\n"
-        "add         - add new contact\n"
-        "edit        - edit existing contact\n"
-        "delete      - delete contact\n"
-        "search      - search contacts\n"
-        "all         - show all contacts\n"
-        "birthdays   - show upcoming birthdays\n"
-        "help        - show this help message\n"
-        "back        - return to main menu" +
+        "add            - add new contact\n"
+        "edit           - edit existing contact\n"
+        "delete         - delete contact\n"
+        "search         - search contacts\n"
+        "all            - show all contacts\n"
+        "show_birthday  - show birthday of contact\n"
+        "birthdays      - show upcoming birthdays\n"
+        "help           - show this help message\n"
+        "back           - return to main menu" +
         Style.RESET_ALL
     )
 

@@ -245,77 +245,77 @@ def search(keyword):
 
     return "\n\n".join(results)
 
-@input_error
-def edit_email(name, new_email):
-    """
-    Редагує email для існуючого контакту.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    record.edit_email(new_email)
-    return f"Email for contact '{name}' updated to: {new_email}"
+# @input_error
+# def edit_email(name, new_email):
+#     """
+#     Редагує email для існуючого контакту.
+#     """
+#     record = contacts.find(name)
+#     if not record:
+#         return f"Contact '{name}' not found."
+#     record.edit_email(new_email)
+#     return f"Email for contact '{name}' updated to: {new_email}"
 
-@input_error
-def edit_address(name, new_address):
-    """
-    Редагує адресу для існуючого контакту.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    record.edit_address(new_address)
-    return f"Address for contact '{name}' updated to: {new_address}"
+# @input_error
+# def edit_address(name, new_address):
+#     """
+#     Редагує адресу для існуючого контакту.
+#     """
+#     record = contacts.find(name)
+#     if not record:
+#         return f"Contact '{name}' not found."
+#     record.edit_address(new_address)
+#     return f"Address for contact '{name}' updated to: {new_address}"
 
-@input_error
-def change_contact(name, new_phone):
-    """
-    Змінює існуючий контакт.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    if not record.phones:
-        return f"Contact '{name}' has no phone numbers to change."
+# @input_error
+# def change_contact(name, new_phone):
+#     """
+#     Змінює існуючий контакт.
+#     """
+#     record = contacts.find(name)
+#     if not record:
+#         return f"Contact '{name}' not found."
+#     if not record.phones:
+#         return f"Contact '{name}' has no phone numbers to change."
     
-    old_phone = record.phones[0].value
-    record.edit_phone(old_phone, new_phone)
-    return f"Contact '{name}' updated: '{old_phone}' → '{new_phone}'."
+#     old_phone = record.phones[0].value
+#     record.edit_phone(old_phone, new_phone)
+#     return f"Contact '{name}' updated: '{old_phone}' → '{new_phone}'."
 
-@input_error
-def show_contact(name):
-    """
-    Показує контакт за іменем.
-    """
-    record = contacts.find(name)
-    if record:
-        return str(record)
-    return f"Contact '{name}' not found."
+# @input_error
+# def show_contact(name):
+#     """
+#     Показує контакт за іменем.
+#     """
+#     record = contacts.find(name)
+#     if record:
+#         return str(record)
+#     return f"Contact '{name}' not found."
 
-@input_error
+# @input_error
 
-def show_phone(name):
-    """
-    Виводить номер телефону для вказаного імені.
-    """
-    record = contacts.find(name)
-    if record:
-        return ", ".join(p.value for p in record.phones) if record.phones else "No phones"
-    return f"Contact '{name}' not found."
+# def show_phone(name):
+#     """
+#     Виводить номер телефону для вказаного імені.
+#     """
+#     record = contacts.find(name)
+#     if record:
+#         return ", ".join(p.value for p in record.phones) if record.phones else "No phones"
+#     return f"Contact '{name}' not found."
 
-@input_error
-def add_birthday(name, bday_str):
-    """
-    Додає день народження до контакту.
-    """
-    record = contacts.find(name)
-    if not record:
-        return f"Contact '{name}' not found."
-    try:
-        record.add_birthday(bday_str)
-        return f"Birthday added to contact '{name}': {bday_str}"
-    except ValueError as e:
-        return str(e)
+# @input_error
+# def add_birthday(name, bday_str):
+#     """
+#     Додає день народження до контакту.
+#     """
+#     record = contacts.find(name)
+#     if not record:
+#         return f"Contact '{name}' not found."
+#     try:
+#         record.add_birthday(bday_str)
+#         return f"Birthday added to contact '{name}': {bday_str}"
+#     except ValueError as e:
+#         return str(e)
 
 @input_error
 def show_birthday(name):
