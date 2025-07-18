@@ -17,6 +17,7 @@ def contacts_help():
         "search         - search contacts\n"
         "all            - show all contacts\n"
         "birthdays      - show upcoming birthdays\n"
+        "birthdays-in   - show birthdays in given days\n"
         "help           - show this help message\n"
         "back           - return to main menu" +
         Style.RESET_ALL

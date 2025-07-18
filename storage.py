@@ -12,32 +12,6 @@ DATA_DIRECTORY = "."
 DATA_FILE = "contacts.pkl"
 NOTEBOOK_FILE = "notes_data.pkl"
 
-def get_upcoming_birthdays(days=7):
-    today = datetime.today().date()
-    upcoming = []
-
-    for name, record in contacts.data.items():
-        if not record.birthday:
-            continue
-
-        bday = record.birthday.value
-        # Перестворити дату народження для поточного року
-        next_birthday = bday.replace(year=today.year)
-
-        # Якщо вже пройшов — дивимось на наступний рік
-        if next_birthday < today:
-            next_birthday = next_birthday.replace(year=today.year + 1)
-
-        delta = (next_birthday - today).days
-
-        if 0 <= delta <= days:
-            upcoming.append(f"{name} — {next_birthday.strftime('%d.%m')} (через {delta} дн.)")
-
-    if not upcoming:
-        return ["Немає днів народження найближчим часом."]
-    return upcoming
-
-
 def set_data_directory(directory):
     global DATA_DIRECTORY
     DATA_DIRECTORY = directory
@@ -331,14 +305,32 @@ def show_contact(name):
 #         return f"No birthday set for contact '{name}'."
 
 @input_error
-def birthdays():
+def birthdays(days: int):
+    result = contacts.get_upcoming_birthdays(days)
+    return result if result else ["Немає днів народження найближчим часом."]
+
+@input_error
+def birthdays_in(days: int):
+    try:
+        days = int(days)
+        upcoming = contacts.get_upcoming_birthdays(days)
+        if not upcoming:
+            return f"No birthdays in the next {days} days."
+        else:
+            return f"Birthdays in the next {days} days:\n" + "\n".join(upcoming)
+    except ValueError:
+        return "Please provide a valid number of days."
+
+@input_error
+def delete_contact(name):
     """
-    Показує список користувачів, яких потрібно привітати наступного тижня.
+    Видаляє контакт із книги.
     """
-    upcoming = contacts.get_upcoming_birthdays()
-    if not upcoming:
-        return "No birthdays in the upcoming week."
-    return "\n".join(upcoming)
+    try:
+        contacts.delete(name)
+        return f"Contact '{name}' deleted successfully."
+    except KeyError:
+        return f"Contact '{name}' not found."
 
 @input_error
 def delete_contact(name):

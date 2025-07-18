@@ -2,9 +2,8 @@ from difflib import get_close_matches
 from data import contacts
 from storage import (
     add_contact_interactive, edit_contact_interactive,
-    delete_contact, show_all, birthdays,
-    show_contact, save_data, search,
-    save_notes, load_notes, get_upcoming_birthdays
+    delete_contact, show_all, show_contact, save_data, search,
+    save_notes, load_notes
 )
 
 notebook = load_notes()
@@ -69,15 +68,15 @@ def execute_command(command, args):
         #     if len(args) != 1:
         #         return "Invalid command. Use: show-birthday [username]"
         #     return show_birthday(args[0])
-
+        
         elif command == "birthdays":
-            return birthdays()
-
+            return "\n".join(contacts.get_upcoming_birthdays(7))
+        
         elif command == "birthdays-in":
             if not args or not args[0].isdigit():
                 return "Please specify number of days. Example: birthdays-in 7"
             days = int(args[0])
-            return "\n".join(get_upcoming_birthdays(days))
+            return "\n".join(contacts.get_upcoming_birthdays(days))
 
         elif command == "search":
             if not args:
