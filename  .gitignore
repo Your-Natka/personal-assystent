@@ -1,27 +1,27 @@
-Python
-__pycache__
-.idea
-
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environment
+# Virtual environments
 .venv/
 venv/
 env/
 
-# VS Code settings
+# IDE settings
 .vscode/
+.idea/
+
+# Compiled files and binary data
+*.pkl
+*.log
 
 # Distribution / packaging
 build/
 dist/
 *.egg-info/
 
-# Test and coverage outputs
+# Test and coverage
 htmlcov/
 .coverage
 
@@ -30,25 +30,16 @@ coverage.xml
 *.cover
 *.py,cover
 
-# Log files
-*.log
-
-# Jupyter Notebook checkpoints
+# Notebooks
 .ipynb_checkpoints/
 
-# Environment variable files
+# Environment variables
 .env
 .env.*
 
-# macOS and Linux
+# OS-specific
 .DS_Store
-
-# Windows
 Thumbs.db
 
-# Pull requests list
+# Local-only files
 pull_request_list.txt
-
-__pycache__/
-*.pyc
-*.pkl
