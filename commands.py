@@ -2,7 +2,8 @@ from difflib import get_close_matches
 from data import contacts
 from storage import (
     add_contact_interactive, edit_contact_interactive,
-    delete_contact, show_all, show_contact, save_data, search,
+    delete_contact, show_all, show_contact, save_data, search, add_note_interactive,
+    edit_note_interactive,
     save_notes, load_notes
 )
 
@@ -105,13 +106,7 @@ def execute_command(command, args):
             return "\n".join(str(n) for n in result) or "No matching notes found."
 
         elif command == "edit-note":
-            if len(args) < 2:
-                return "Invalid command. Use: edit-note [index] [new text] [new_tag1,new_tag2,...]"
-            index = int(args[0])
-            text = args[1]
-            tags = args[2].split(",") if len(args) > 2 else None
-            result = notebook.edit_note(index, text, tags)
-            save_notes(notebook)
+            result = edit_note_interactive()
             return result
 
         elif command == "delete-note":
