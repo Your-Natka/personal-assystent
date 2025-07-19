@@ -31,6 +31,8 @@ pip freeze > requirements.txt
 
 5. Запуск
 python3 main.py 
+(Якщо у терміналі ввести: source ~/.zshrc
+А потім: hello)
 
 6. Інструкція користувача.
 Після запуску бот запитає режим:
@@ -181,14 +183,91 @@ Contact name: Vita, phones: 0737657654, email: vita@gmail.com
 Contact name: Natali, phones: 0737657654
 
 
+🗒️ Робота з нотатками
+
 🗒️ Команди (режим notes)
 Команда	Опис
 add-note "text" tags.      - Додати нотатку (теги через кому, без пробілів)
 show-notes	               - Показати всі нотатки
-find-note keyword	       - Знайти нотатки за ключовим словом або тегом
+find-note keyword	         - Знайти нотатки за ключовим словом або тегом
 edit-note index "new text" - Редагувати нотатку за індексом
-delete-note index	       - Видалити нотатку
+delete-note index	         - Видалити нотатку
 
+🧩 Додавання нотатки (команда add-note)
+Щоб додати нову нотатку, використовуйте команду:
+
+add-note "текст нотатки" тег1,тег2,...
+
+Текст нотатки береться в лапки.
+
+Теги вводяться через кому без пробілів.
+
+📌 Приклад:
+
+Enter command: add-note "Зателефонувати лікарю" важливо,здоров'я
+Note added successfully.
+
+🧩 Перегляд усіх нотаток (команда show-notes)
+Команда show-notes виводить список усіх нотаток із часом створення та тегами.
+
+📌 Приклад:
+
+Enter command: show-notes
+[2025-07-19 16:32] Зателефонувати лікарю (Tags: важливо, здоров'я)
+[2025-07-19 16:46] Сьогодня перед презентація нашого додатку (Tags: важлива подія)
+
+🧩 Пошук нотаток (команда find-note)
+Щоб знайти нотатку за словом або тегом, введіть:
+
+find-note ключове_слово_або_тег
+
+📌 Приклад:
+Enter command: find-note важливо
+[2025-07-19 16:32] Зателефонувати лікарю (Tags: важливо, здоров'я)
+
+❗️Якщо не вказати ключове слово — отримаєте підказку:
+Enter command: find-note
+Please provide a keyword to search for notes.
+
+🧩 Редагування нотатки (команда edit-note)
+Щоб змінити текст нотатки, введіть:
+
+edit-note індекс "новий текст"
+
+Індекс — номер нотатки у списку (нумерація починається з 1).
+
+Новий текст слід ввести в лапках.
+
+📌 Приклад:
+
+Enter command: edit-note 2 "Зателефонувати стоматологу"
+Note updated successfully.
+
+🧩 Видалення нотатки (команда delete-note)
+Щоб видалити нотатку, введіть:
+
+delete-note індекс
+
+📌 Приклад:
+
+✅ Успішне видалення:
+Enter command: delete-note 1
+Deleted note:
+[2025-07-18 22:13] 1 (Tags: note., my)
+
+❗️Якщо індекс не вказано:
+
+Enter command: delete-note
+Please provide the index of the note to delete.
+
+🧩 Повернення в головне меню (команда back)
+Команда back виходить з режиму нотаток у головне меню:
+
+Enter command: back
+Returning to mode selection...
+Enter mode (contacts/notes or exit):
+
+Enter command: exit чи close закриває наш бот.
 
 7. 💾 Збереження даних
 
