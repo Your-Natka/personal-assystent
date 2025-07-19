@@ -27,13 +27,13 @@ def notes_help():
     print(Fore.MAGENTA + "Available commands:" + Style.RESET_ALL)
     print(
     Fore.GREEN +
-        "add-note    - add a note with tags\n"
-        "show-notes  - show all notes\n"
-        "find-note   - find notes by keyword\n"
-        "edit-note   - edit note by index\n"
-        "delete-note - delete note by index\n"
-        "help        - show this help message\n"
-        "back        - return to main menu" +
+        "add-notes        - add a note with tags\n"
+        "show-notes       - show all notes\n"
+        "find-notes       - find notes by keyword\n"
+        "edit-notes       - edit note by index\n"
+        "delete-notes     - delete note by index\n"
+        "help             - show this help message\n"
+        "back             - return to main menu" +
         Style.RESET_ALL
     )
 
