@@ -350,8 +350,7 @@ def show_all():
     """
     if not contacts.data:
         return "No contacts found."
-    
-    
+
     result = ""
     for name, record in contacts.data.items():
         lines = [f"Name: {name}"]
@@ -364,70 +363,4 @@ def show_all():
         if record.birthday:
             lines.append(f"Birthday: {record.birthday.value.strftime('%d.%m.%Y')}")
         result += "\n".join(lines) + "\n" + "-"*30 + "\n"
-        return result.strip()
-
-
-@input_error
-def add_note_interactive():
-    print('Adding a new note (type ‘exit’ to cancel at any time)')
-    text = input('Enter the text of the note: ').strip()
-    if not text or text.lower() == 'exit':
-        return 'Cancelled.'
-    tags_input = input('Enter tags (comma-separated, optional): ').strip().split(',')
-    if tags_input.lower() == 'exit':
-        return 'Cancelled.'
-    tags = [tag.strip() for tag in tags_input if tag.strip()] if tags_input else []
-    notebook.add_note(text, tags)
-    save_notes(notebook)
-    return f"Note added successfully:\nNote(text='{text}', tags={tags})"
-
-# Додавання нової нотатки з тегами
-# def add_note(notes: NoteBook):
-#     print(Fore.GREEN + "\n+ Додавання нової нотатки (натисніть Enter для скасування)")
-#     text = input("Введіть текст нотатки: ").strip()
-#     if not text:
-#         print(Fore.YELLOW + "Додавання скасовано.")
-#         return
-#     tags = input("Введіть теги (через кому) або натисніть Enter для пропуску: ").strip().split(',')
-#     tags = [t.strip() for t in tags if t.strip()] if tags else []
-#     note = Note(text=text, tags=tags)
-#     notes.add_note(note)
-#     save_data(None, notes)  # Зберігаємо лише нотатки
-#     print(Fore.GREEN + "✓ Нотатку додано успішно!")
-
-
-@input_error
-def edit_note_interactive():
-    print('Editing a note (type ‘exit’ to cancel or press Enter to skip a field)')
-    if not notebook.notes:
-        return "No notes available to edit."
-    # Показуємо всі нотатки
-    print("\nAvailable notes:")
-    for idx, note in enumerate(notebook.notes, 1):
-        tags_str = ", ".join(note.tags) if note.tags else "no tags"
-        print(f"{idx}. {note.text} [{tags_str}]")
-    note_index_input = input("\nEnter the number of the note to edit: ").strip()
-    if note_index_input.lower() == 'exit':
-        return "Cancelled."
-    if not note_index_input.isdigit():
-        return "Invalid input. Please enter a number."
-    note_index = int(note_index_input) - 1
-    if note_index < 0 or note_index >= len(notebook.notes):
-        return "Invalid note number."
-    note = notebook.notes[note_index]
-    print(f"\nCurrent text: {note.text}")
-    new_text = input("Enter new text (or press Enter to keep current): ").strip()
-    if new_text.lower() == 'exit':
-        return "Cancelled."
-    if new_text:
-        note.text = new_text
-    current_tags = ", ".join(note.tags) if note.tags else "None"
-    print(f"Current tags: {current_tags}")
-    new_tags_input = input("Enter new tags (comma-separated) (or press Enter to keep current): ").strip()
-    if new_tags_input.lower() == 'exit':
-        return "Cancelled."
-    if new_tags_input:
-        note.tags = [tag.strip() for tag in new_tags_input.split(",") if tag.strip()]
-    save_notes(notebook)
-    return f"Note updated successfully:\n{note}"
-
+    return result.strip()

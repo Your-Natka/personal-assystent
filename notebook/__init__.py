@@ -1,3 +1,17 @@
-from contacts.book import AddressBook
-from contacts.record import Record
-from contacts.fields import Name, Phone, Birthday, Email, Address
+from .note_handler import (
+    add_note,
+    edit_note,
+    delete_note,
+    show_notes,
+    find_note,
+    show_notes_help,
+)
+
+__all__ = [
+    "add_note",
+    "edit_note",
+    "delete_note",
+    "show_notes",
+    "find_note",
+    "show_notes_help",
+]
