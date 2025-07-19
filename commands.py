@@ -4,7 +4,7 @@ from storage import (
     add_contact_interactive, edit_contact_interactive,
     delete_contact, show_all, show_contact, save_data, search, add_note_interactive,
     edit_note_interactive,
-    save_notes, load_notes
+    save_notes, load_notes, delete_note ,show_notes, find_note
 )
 
 notebook = load_notes()
@@ -88,35 +88,31 @@ def execute_command(command, args):
             return show_all()
 
         elif command == "add-note":
-            if len(args) < 2:
-                return "Invalid command. Use: add-note [text] [tag1,tag2,...]"
-            text = " ".join(args[:-1])
-            tags = args[-1].split(',')
-            result = notebook.add_note(text, tags)
-            save_notes(notebook)
-            return result
-
-        elif command == "show-notes":
-            return "\n".join(notebook.list_notes()) or "No notes yet."
-
-        elif command == "find-note":
-            if not args:
-                return "Invalid command. Use: find-note [keyword]"
-            result = notebook.find_notes(" ".join(args))
-            return "\n".join(str(n) for n in result) or "No matching notes found."
+            return add_note_interactive()
 
         elif command == "edit-note":
             result = edit_note_interactive()
             return result
+        
+        elif command == "show-notes":
+            return show_notes()
+        
+        elif command == "find-note":
+            if args:
+                return find_note(args.strip())
+            else:
+                return "Please provide a keyword to search for notes."
 
         elif command == "delete-note":
-            if not args:
-                return "Invalid command. Use: delete-note [index]"
-            index = int(args[0])
-            result = notebook.remove_note(index)
-            save_notes(notebook)
-            return result
-
+            if args:
+                try:
+                    index = int(args[0])  # ✅ беремо перший елемент зі списку
+                    return delete_note(index)
+                except ValueError:
+                    return "Invalid index. Please enter a number."
+            else:
+                return "Please provide the index of the note to delete."
+            
         else:
             suggestion = suggest_command(command)
             if suggestion:
