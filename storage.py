@@ -211,7 +211,7 @@ def search(keyword):
     results = []
 
     for name, record in contacts.data.items():
-        # Ім’я
+        # Ім'я
         if keyword in name.lower():
             results.append(str(record))
             continue
@@ -426,3 +426,4 @@ def delete_note(index):
         return f"Deleted note:\n{deleted_note}"
     except ValueError:
         return "Please enter a valid number for note index."
+    

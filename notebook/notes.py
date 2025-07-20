@@ -47,3 +47,4 @@ class Notebook:
 
     def list_notes(self):
         return [str(note) for note in self.notes]
+    

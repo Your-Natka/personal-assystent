@@ -128,3 +128,4 @@ if __name__ == "__main__":
     else:
         directory_path = '.'  # поточна директорія
     main(directory_path)
+    
