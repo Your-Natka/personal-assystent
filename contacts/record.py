@@ -136,3 +136,4 @@ class Record:
         email_str = f", email: {self.email}" if self.email else ""
         address_str = f", address: {self.address}" if self.address else ""
         return f"Contact name: {self.name.value}, phones: {phones_str}{bday_str}{email_str}{address_str}"
+    

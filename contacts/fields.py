@@ -49,3 +49,4 @@ class Address(Field):
         if not value.strip():
             raise ValueError("Address cannot be empty.")
         super().__init__(value)
+        

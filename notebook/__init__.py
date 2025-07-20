@@ -1,3 +1,3 @@
-from contacts.book import AddressBook
-from contacts.record import Record
-from contacts.fields import Name, Phone, Birthday, Email, Address
+from .notes import Notebook
+
+__all__ = ["Notebook"]
