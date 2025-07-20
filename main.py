@@ -51,7 +51,7 @@ def main(directory=None):
 
     while True:
         try:
-            user_input = input(f"{Fore.YELLOW}Enter mode (contacts/notes or exit/close): {Style.RESET_ALL}").strip().lower()
+            user_input = input(f"{Fore.MAGENTA}Enter mode (contacts/notes or exit/close): {Style.RESET_ALL}").strip().lower()
             if user_input == '':
                 mode = 'contacts'  # дефолтний режим
             else:
@@ -63,7 +63,7 @@ def main(directory=None):
                 break
 
             if mode not in ['contacts', 'notes']:
-                print("Unknown mode. Please enter 'contacts', 'notes', or 'exit'.")
+                print(Fore.BLUE + "Unknown mode. Please enter 'contacts', 'notes', or 'exit'." + Style.RESET_ALL)
                 continue
 
             print(f"Entering {mode} mode (type '{Fore.LIGHTRED_EX}help{Style.RESET_ALL}' for available commands)")

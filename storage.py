@@ -1,3 +1,4 @@
+from colorama import init, Fore, Style
 import re
 from error_handlers import input_error
 from contacts.record import Record 
@@ -10,6 +11,7 @@ from contacts.fields import Birthday, Email, Address
 from data import notes_data, save_notes
 from datetime import datetime, timedelta
 
+init(autoreset=True)
 # Початковий шлях до файлу
 DATA_DIRECTORY = "."
 DATA_FILE = "contacts.pkl"
@@ -82,7 +84,7 @@ def add_contact_interactive():
 
     def ask_continue():
         while True:
-            cont = input("Do you want to continue? (yes/no): ").strip().lower()
+            cont = input(f"{Fore.CYAN}Do you want to continue? (yes/no): {Style.RESET_ALL}").strip().lower()
             if cont in ('yes', 'y'):
                 return True
             elif cont in ('no', 'n'):
@@ -112,7 +114,7 @@ def add_contact_interactive():
         record.add_phone(phone)
     if phone and not ask_continue():
         contacts.add_record(record)
-        return f"Contact '{name}' added successfully."
+        return f"Contact '{name}' added successfully." 
 
     # Email (опціонально)
     email, cancel = ask_field("Enter email (optional): ")
@@ -145,7 +147,7 @@ def add_contact_interactive():
             return f"Invalid birthday format: {e}"
 
     contacts.add_record(record)
-    return f"Contact '{name}' added successfully."
+    return Fore.GREEN + f"Contact '{name}' added successfully." + Style.RESET_ALL
 
 @input_error
 def edit_contact_interactive():
@@ -200,7 +202,7 @@ def edit_contact_interactive():
         except ValueError as e:
             print(f"Invalid birthday format: {e}")
 
-    return f"Contact '{name}' updated successfully."
+    return Fore.GREEN + f"Contact '{name}' updated successfully." + Style.RESET_ALL
 
 @input_error
 def search(keyword):
@@ -238,7 +240,7 @@ def search(keyword):
             continue
 
     if not results:
-        return "No matching contacts found."
+        return "No matching contacts found." 
 
     return "\n\n".join(results)
 
@@ -250,7 +252,7 @@ def show_contact(name):
     record = contacts.find(name)
     if record:
         return str(record)
-    return f"Contact '{name}' not found."
+    return Fore.GREEN + f"Contact '{name}' not found." + Style.RESET_ALL
 
 @input_error
 def get_birthdays_in_days(days: int) -> str:
@@ -271,7 +273,7 @@ def get_birthdays_in_days(days: int) -> str:
             if birthday_this_year.date() == target_day:
                 result.append(f"{record.name.value}: {bday.strftime('%d.%m.%Y')}")
 
-    return "\n".join(result) if result else f"No birthdays in {days} days."
+    return Fore.GREEN + "\n".join(result) if result else Fore.GREEN + f"No birthdays in {days} days." + Style.RESET_ALL
 
 @input_error
 def delete_contact(name):
@@ -280,10 +282,10 @@ def delete_contact(name):
     """
     try:
         contacts.delete(name)
-        return f"Contact '{name}' deleted successfully."
+        return Fore.GREEN +f"Contact '{name}' deleted successfully." + Style.RESET_ALL
     except KeyError:
-        return f"Contact '{name}' not found."
-    
+        return Fore.GREEN + f"Contact '{name}' not found." + Style.RESET_ALL
+
 @input_error
 def show_all():
     """
@@ -327,7 +329,7 @@ def add_note_interactive():
     notebook.add_note(text, tags)
     save_notes(notebook)
 
-    return f"Note added successfully:\nNote(text='{text}', tags={tags})"
+    return Fore.GREEN + f"Note added successfully:\nNote(text='{text}', tags={tags})" + Style.RESET_ALL
 
 @input_error
 def edit_note_interactive():
@@ -372,7 +374,7 @@ def edit_note_interactive():
         note.tags = [tag.strip() for tag in new_tags_input.split(",") if tag.strip()]
 
     save_notes(notebook)
-    return f"Note updated successfully:\n{note}"
+    return Fore.GREEN + f"Note updated successfully:\n{note}" + Style.RESET_ALL
 
 @input_error
 def find_note(args):
@@ -383,13 +385,15 @@ def find_note(args):
 
     results = []
     for note in notes_data:
-        if any(keyword in tag.lower() for tag in note.tags):
+        normalized_tags = [tag.strip().lower() for tag in note.tags]
+        if keyword in normalized_tags:
             results.append(note)
 
     if results:
         return "\n\n".join(str(note) for note in results)
     else:
-        return "No notes found with the tag."
+        return Fore.RED + "No notes found with the tag." + Style.RESET_ALL
+
 
 @input_error
 def show_notes():
@@ -423,7 +427,6 @@ def delete_note(index):
 
         deleted_note = notebook.notes.pop(index - 1)
         save_notes(notebook)
-        return f"Deleted note:\n{deleted_note}"
+        return Fore.GREEN + f"Deleted note:\n{deleted_note}" + Style.RESET_ALL
     except ValueError:
-        return "Please enter a valid number for note index."
-    
+        return Fore.CYAN + "Please enter a valid number for note index." + Style.RESET_ALL
