@@ -1,5 +1,7 @@
 Наша команда MemoHackers розробила віртуального бота.
 
+Посилання на презентацію: https://gamma.app/docs/MemoHackers-Personal-Assistant-CLI-tvgd1oy80p2on7k?mode=doc
+
 **Personal Assistant** — це консольний помічник на Python, який допоможе керувати:
 
 📇 Контактами (телефон, email, адреса, день народження)
