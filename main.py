@@ -4,6 +4,7 @@ import os
 from parser import parse_input
 from commands import execute_command
 from storage import contacts, save_data, set_data_directory
+from difflib import get_close_matches
 
 init(autoreset=True)
 
@@ -16,7 +17,6 @@ def contacts_help():
         "delete         - delete contact\n"
         "search         - search contacts\n"
         "all            - show all contacts\n"
-        "birthdays      - show upcoming birthdays\n"
         "birthdays-in   - show birthdays in given days\n"
         "help           - show this help message\n"
         "back           - return to main menu" +
@@ -29,6 +29,7 @@ def notes_help():
     Fore.GREEN +
         "add-note         - add a note with tags\n"
         "show-notes       - show all notes\n"
+        "sort-notes       - sort notes by first tag\n"
         "find-note        - find notes by keyword\n"
         "edit-note        - edit note by index\n"
         "delete-note      - delete note by index\n"
@@ -36,6 +37,9 @@ def notes_help():
         "back             - return to main menu" +
         Style.RESET_ALL
     )
+def suggest_command(user_input, allowed_commands):
+    matches = get_close_matches(user_input, allowed_commands, n=1, cutoff=0.5)
+    return matches[0] if matches else None
 
 def main(directory=None):
     print(Fore.BLUE + "Welcome to the assistant bot!" + Style.RESET_ALL)
@@ -47,14 +51,14 @@ def main(directory=None):
 
     while True:
         try:
-            user_input = input("Enter mode (contacts/notes or exit/close): ").strip().lower()
+            user_input = input(f"{Fore.YELLOW}Enter mode (contacts/notes or exit/close): {Style.RESET_ALL}").strip().lower()
             if user_input == '':
                 mode = 'contacts'  # дефолтний режим
             else:
                 mode = user_input
 
             if mode in ['exit', 'close']:
-                print("Good bye!")
+                print(Fore.CYAN + "Good bye!" + Style.RESET_ALL)
                 save_data(contacts)
                 break
 
@@ -62,13 +66,11 @@ def main(directory=None):
                 print("Unknown mode. Please enter 'contacts', 'notes', or 'exit'.")
                 continue
 
-            print(f"Entering {mode} mode (type 'help' for available commands)")
+            print(f"Entering {mode} mode (type '{Fore.LIGHTRED_EX}help{Style.RESET_ALL}' for available commands)")
 
-            # ⬇️ Весь цей блок повинен бути ВНУТРІШНІМ для вибраного режиму
             while True:
-                user_input = input("Enter command: ").strip()
+                user_input = input(f"{Fore.YELLOW}Enter command:{Style.RESET_ALL} ").strip()
                 if not user_input:
-                    # Порожній ввод — повернутися до вибору режиму
                     print("Returning to mode selection...")
                     break
 
@@ -82,17 +84,16 @@ def main(directory=None):
                 if command == 'back':
                     print("Returning to mode selection...")
                     break
-                
-                if command in ["close", "exit"]:
-                    print("Good bye!")
+
+                if command in ['exit', 'close']:
+                    print(Fore.CYAN + "Good bye!" + Style.RESET_ALL)
                     save_data(contacts)
                     return
 
-                # Виконуємо команду залежно від режиму
                 if mode == 'contacts':
-                    allowed_commands = ['add', 'edit', 'delete', 'search', 'all', 'birthdays', 'hello', 'help']
+                    allowed_commands = ['add', 'edit', 'delete', 'search', 'all', 'birthdays-in', 'hello', 'help']
                 else:
-                    allowed_commands = ['add-note', 'show-notes', 'find-note', 'edit-note', 'delete-note', 'hello', 'help']
+                    allowed_commands = ['add-note', 'show-notes', 'sort-notes', 'find-note', 'edit-note', 'delete-note', 'hello', 'help']
 
                 if command in allowed_commands:
                     if command == 'help':
@@ -103,11 +104,23 @@ def main(directory=None):
                     else:
                         print(execute_command(command, args))
                 else:
-                    print("Unknown command. Type 'help' for available commands.")
+                    suggestion = suggest_command(command, allowed_commands)
+                    if suggestion:
+                        answer = input(
+                            f"{Fore.CYAN}Unknown command '{command}'. Did you mean '{Fore.GREEN}{suggestion}{Fore.CYAN}'? (y/n): {Style.RESET_ALL}"
+                        ).strip().lower()
+                        if answer == 'y':
+                            print(execute_command(suggestion, args))
+                        else:
+                            print(Fore.RED + "Command not recognized. Type 'help' to see available commands." + Style.RESET_ALL)
+                    else:
+                        print(Fore.RED + "Command not recognized. Type 'help' to see available commands." + Style.RESET_ALL)
+
         except KeyboardInterrupt:
             print("\nInterrupted by user. Exiting...")
             save_data(contacts)
             break
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
@@ -115,3 +128,4 @@ if __name__ == "__main__":
     else:
         directory_path = '.'  # поточна директорія
     main(directory_path)
+    
