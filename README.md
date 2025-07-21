@@ -2,6 +2,8 @@
 
 Посилання на презентацію: https://gamma.app/docs/MemoHackers-Personal-Assistant-CLI-tvgd1oy80p2on7k?mode=doc
 
+https://trello.com/b/HodmC9mv/memohackers
+
 **Personal Assistant** — це консольний помічник на Python, який допоможе керувати:
 
 📇 Контактами (телефон, email, адреса, день народження)
@@ -43,7 +45,7 @@ pip freeze > requirements.txt
 
 5. Запуск
 python3 main.py 
-(Якщо у терміналі ввести: source ~/.zshrc
+(Якщо у терміналі ввести: source ~/.zshrc 
 А потім: hello)
 
 6. Інструкція користувача.
