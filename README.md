@@ -26,6 +26,16 @@ python3 -m venv venv
 source venv/bin/activate  # для Linux/macOS
 venv\Scripts\activate     # для Windows
 
+ 🔄 Вийди з віртуального середовища та видали його
+
+deactivate
+rm -rf venv
+
+🐍 Онови pip, venv і virtualenv
+python3 -m pip install --upgrade pip setuptools virtualenv
+
+🆕 Створи нове чисте віртуальне середовище: Рядок 25
+
 4. Встановлюємо залежності:
 pip install -r requirements.txt
 Щоб зберегти список залежностей:

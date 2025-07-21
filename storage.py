@@ -70,7 +70,6 @@ def delete_note_by_index(index):
             return "Invalid note index."
     except ValueError:
         return "Index must be a number."
-    
 
 @input_error
 def add_contact_interactive():
