@@ -2,7 +2,7 @@
 name = "personal-assystent"
 version = "0.1.0"
 description = "CLI додаток-помічник для роботи з контактами і нотатками"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["project-group-4 <your.email@example.com>"]
 license = "MIT"
 readme = "README.md"
 
