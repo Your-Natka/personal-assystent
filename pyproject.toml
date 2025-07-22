@@ -5,6 +5,11 @@ description = "CLI додаток-помічник для роботи з кон
 authors = ["project-group-4 <your.email@example.com>"]
 license = "MIT"
 readme = "README.md"
+package-mode = false
+
+packages = [
+    { include = "personal_assystent" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
