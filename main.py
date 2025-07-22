@@ -42,7 +42,10 @@ def suggest_command(user_input, allowed_commands):
     return matches[0] if matches else None
 
 def main(directory=None):
-    print(Fore.BLUE + "Welcome to the assistant bot!" + Style.RESET_ALL)
+    print(Fore.BLUE + "You are greeted by " + 
+    Fore.YELLOW + "Semen Semenych" + 
+    Fore.BLUE + ", your assistant bot!" + 
+    Style.RESET_ALL)
 
     if directory:
         if not os.path.exists(directory):
