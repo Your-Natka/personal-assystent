@@ -2,7 +2,7 @@
 
 Посилання на презентацію: https://gamma.app/docs/MemoHackers-Personal-Assistant-CLI-tvgd1oy80p2on7k?mode=doc
 
-https://trello.com/b/HodmC9mv/memohackers
+Посилання на Trello: https://trello.com/b/HodmC9mv/memohackers
 
 **Personal Assistant** — це консольний помічник на Python, який допоможе керувати:
 
