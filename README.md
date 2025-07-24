@@ -45,12 +45,12 @@ pip freeze > requirements.txt
 
 5. Запуск
 python3 main.py 
-(Якщо у терміналі ввести: source ~/.zshrc 
+(Якщо у терміналі ввести:  
 А потім: hello)
 
 6. Інструкція користувача.
 Після запуску бот запитає режим:
-
+source ~/.zshrc
 Enter mode (contacts/notes or exit):
 
   - введіть contacts — для керування контактами
