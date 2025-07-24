@@ -256,23 +256,27 @@ def show_contact(name):
 @input_error
 def get_birthdays_in_days(days: int) -> str:
     today = datetime.today().date()
-    target_day = today + timedelta(days=days)
     result = []
 
     for record in contacts.values():
         if record.birthday:
             bday = record.birthday.value
-            # День народження цього року
             birthday_this_year = bday.replace(year=today.year)
 
-            # 🔧 Перетворення на date для порівняння
+            # Якщо день народження вже минув цього року — дивимось наступний рік
             if birthday_this_year.date() < today:
                 birthday_this_year = bday.replace(year=today.year + 1)
 
-            if birthday_this_year.date() == target_day:
+            days_left = (birthday_this_year.date() - today).days
+
+            if 0 <= days_left <= days:
                 result.append(f"{record.name.value}: {bday.strftime('%d.%m.%Y')}")
 
-    return Fore.GREEN + "\n".join(result) if result else Fore.GREEN + f"No birthdays in {days} days." + Style.RESET_ALL
+    return (
+        Fore.GREEN + "\n".join(result)
+        if result
+        else Fore.GREEN + f"No birthdays in the next {days} days." + Style.RESET_ALL
+    )
 
 @input_error
 def delete_contact(name):
