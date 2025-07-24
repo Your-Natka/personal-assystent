@@ -146,6 +146,7 @@ def add_contact_interactive():
             return f"Invalid birthday format: {e}"
 
     contacts.add_record(record)
+
     return Fore.GREEN + f"Contact '{name}' added successfully." + Style.RESET_ALL
 
 @input_error
